@@ -407,13 +407,43 @@
         }
 
         // Initialize
-        fetchData().then(data => {
+        fetchData().then(async data => {
             allData = data;
             if (data.length > 0) {
                 const latest = data[data.length - 1];
                 const previous = data.length > 1 ? data[data.length - 2] : null;
+                
+                // 先用历史数据渲染，保证页面不空
                 updateStats(latest, previous);
                 initChart(data);
+
+                // 尝试获取实时数据
+                try {
+                    const liveResponse = await fetch('https://qinqing.hangzhou.gov.cn/qqent/330109_078/api/admin/summation');
+                    const liveJson = await liveResponse.json();
+                    
+                    if (liveJson.code === '0000' && liveJson.data) {
+                        const liveData = {
+                            balance: parseFloat(liveJson.data.balance),
+                            used: parseFloat(liveJson.data.used),
+                            total: parseFloat(liveJson.data.total),
+                            timestamp: new Date().toISOString() // 实时数据使用当前时间
+                        };
+                        
+                        // 更新顶部卡片数据
+                        updateStats(liveData, latest); // 这里的 previous 变成了 history 的最新一条
+                        
+                        // 可选：把实时点加到图表里（如果需要的话）
+                        // allData.push(liveData);
+                        // updateChart('all'); 
+                        
+                        document.getElementById('lastUpdated').textContent = '实时数据 (已连接)';
+                        document.getElementById('lastUpdated').style.color = '#34C759'; // 绿色表示实时
+                    }
+                } catch (e) {
+                    console.log('Live data fetch failed (likely CORS), falling back to history', e);
+                    // 失败了就保持原样，不做任何处理
+                }
             }
         });
     </script>
