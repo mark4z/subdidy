@@ -13,19 +13,18 @@ jobs:
     - name: Check out this repo
       uses: actions/checkout@v3
 
-    - name: Fetch data
-      run: |
-        # 请求数据并覆盖保存到 data.json 文件
-        curl "https://qinqing.hangzhou.gov.cn/qqent/330109_077/api/admin/summation" -o data.json
-        
-        # 也可以追加保存到 log.txt
-        echo "$(date) - $(cat data.json)" >> log.txt
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - name: Process data
+      run: python process_data.py
 
     - name: Commit and push if it changed
       run: |
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
-        git add -A
+        git add data.json history.json index.html process_data.py
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
