@@ -2,108 +2,215 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>补贴余额监控</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>杭州补贴余额监控</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
     <style>
+        :root {
+            --primary-color: #007AFF;
+            --bg-color: #F2F2F7;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --danger-color: #FF3B30;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 16px;
+            box-sizing: border-box;
         }
+
+        header {
+            margin-bottom: 20px;
+            text-align: center;
+            padding-top: 10px;
+        }
+
         h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+        }
+
+        .last-updated {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .balance-card {
             text-align: center;
-            color: #333;
+            padding: 30px 20px;
         }
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .stat-item {
-            padding: 10px;
-        }
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2196F3;
-        }
-        .stat-label {
-            color: #666;
+
+        .balance-label {
             font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
-        .chart-container {
-            position: relative;
-            height: 400px;
-            width: 100%;
+
+        .balance-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
         }
-        .controls {
-            text-align: center;
+        
+        .balance-diff {
+            font-size: 13px;
+            color: var(--text-secondary);
             margin-bottom: 20px;
         }
-        button {
-            padding: 8px 16px;
-            margin: 0 5px;
-            border: 1px solid #ddd;
-            background: #fff;
-            cursor: pointer;
-            border-radius: 4px;
+        
+        .balance-diff.down {
+            color: var(--danger-color);
         }
-        button.active {
-            background: #2196F3;
-            color: white;
-            border-color: #2196F3;
-        }
-        .last-updated {
-            text-align: center;
-            color: #999;
-            font-size: 12px;
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             margin-top: 20px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .chart-card {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .controls {
+            background: #E5E5EA;
+            border-radius: 8px;
+            padding: 2px;
+            display: inline-flex;
+        }
+
+        .control-btn {
+            border: none;
+            background: none;
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-btn.active {
+            background: #FFFFFF;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-weight: 500;
+        }
+
+        .chart-wrapper {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            min-height: 0; /* Important for flex child */
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #C7C7CC;
+            margin-top: 30px;
+            padding-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>补贴数据监控</h1>
+        <header>
+            <h1>杭州补贴资金监控</h1>
+            <div class="last-updated" id="lastUpdated">加载中...</div>
+        </header>
         
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="currentBalance">--</div>
-                <div class="stat-label">当前余额 (元)</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="currentUsed">--</div>
-                <div class="stat-label">已用金额 (元)</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="totalAmount">--</div>
-                <div class="stat-label">总金额 (元)</div>
+        <div class="card balance-card">
+            <div class="balance-label">当前剩余补贴额度</div>
+            <div class="balance-value" id="currentBalance">--</div>
+            <div class="balance-diff" id="balanceDiff"></div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="currentUsed">--</div>
+                    <div class="stat-sub">已用金额</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalAmount">--</div>
+                    <div class="stat-sub">总金额</div>
+                </div>
             </div>
         </div>
 
-        <div class="controls">
-            <button onclick="updateChart('day')" id="btn-day">最近24小时</button>
-            <button onclick="updateChart('week')" id="btn-week">最近7天</button>
-            <button onclick="updateChart('all')" id="btn-all" class="active">全部</button>
-        </div>
-
-        <div class="chart-container">
-            <canvas id="trendChart"></canvas>
+        <div class="card chart-card">
+            <div class="chart-header">
+                <div class="chart-title">资金趋势</div>
+                <div class="controls">
+                    <button class="control-btn" onclick="updateChart('day')" id="btn-day">24H</button>
+                    <button class="control-btn" onclick="updateChart('week')" id="btn-week">7天</button>
+                    <button class="control-btn active" onclick="updateChart('all')" id="btn-all">全部</button>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="trendChart"></canvas>
+            </div>
         </div>
         
-        <div class="last-updated" id="lastUpdated"></div>
+        <div class="footer">
+            数据来源：杭州亲清在线
+        </div>
     </div>
 
     <script>
@@ -112,7 +219,8 @@
 
         async function fetchData() {
             try {
-                const response = await fetch('history.json');
+                // 添加时间戳防止缓存
+                const response = await fetch('history.json?t=' + new Date().getTime());
                 const data = await response.json();
                 return data;
             } catch (error) {
@@ -121,8 +229,18 @@
             }
         }
 
-        function formatMoney(num) {
+        function formatMoneyCompact(num) {
+            if (num >= 100000000) {
+                return (num / 100000000).toFixed(2) + ' 亿';
+            }
+            if (num >= 10000) {
+                return (num / 10000).toFixed(2) + ' 万';
+            }
             return new Intl.NumberFormat('zh-CN').format(num);
+        }
+
+        function formatMoneyFull(num) {
+             return new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' }).format(num);
         }
 
         function filterData(data, period) {
@@ -143,6 +261,11 @@
         function initChart(data) {
             const ctx = document.getElementById('trendChart').getContext('2d');
             
+            // 创建渐变色
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(0, 122, 255, 0.2)');
+            gradient.addColorStop(1, 'rgba(0, 122, 255, 0.0)');
+
             chart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -150,19 +273,13 @@
                         {
                             label: '余额',
                             data: data.map(d => ({x: d.timestamp, y: d.balance})),
-                            borderColor: '#2196F3',
-                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            borderColor: '#007AFF',
+                            backgroundColor: gradient,
+                            borderWidth: 2,
+                            pointRadius: 0, // 默认不显示点，触摸时显示
+                            pointHitRadius: 10,
                             fill: true,
                             tension: 0.4
-                        },
-                        {
-                            label: '已用',
-                            data: data.map(d => ({x: d.timestamp, y: d.used})),
-                            borderColor: '#FF5722',
-                            backgroundColor: 'rgba(255, 87, 34, 0.1)',
-                            fill: false,
-                            tension: 0.4,
-                            hidden: true // 默认隐藏，避免图表太乱
                         }
                     ]
                 },
@@ -173,25 +290,58 @@
                         mode: 'index',
                         intersect: false,
                     },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12,
+                            titleFont: { size: 13 },
+                            bodyFont: { size: 13 },
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return '余额: ' + formatMoneyFull(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: {
                             type: 'time',
-                            time: {
-                                unit: 'hour',
-                                displayFormats: {
-                                    hour: 'MM-DD HH:mm'
-                                },
-                                tooltipFormat: 'YYYY-MM-DD HH:mm'
+                            grid: {
+                                display: false,
+                                drawBorder: false
                             },
-                            title: {
-                                display: true,
-                                text: '时间'
+                            ticks: {
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 5,
+                                font: { size: 10 },
+                                color: '#8E8E93'
+                            },
+                            time: {
+                                tooltipFormat: 'MM-DD HH:mm',
+                                displayFormats: {
+                                    hour: 'HH:mm',
+                                    day: 'MM-DD'
+                                }
                             }
                         },
                         y: {
-                            title: {
-                                display: true,
-                                text: '金额 (元)'
+                            position: 'right', // Y轴放右边，符合移动端看K线习惯
+                            grid: {
+                                color: '#F2F2F7',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return formatMoneyCompact(value);
+                                },
+                                font: { size: 10 },
+                                color: '#8E8E93',
+                                maxTicksLimit: 6
                             }
                         }
                     }
@@ -199,12 +349,38 @@
             });
         }
 
-        function updateStats(latest) {
+        function updateStats(latest, previous) {
             if (!latest) return;
-            document.getElementById('currentBalance').textContent = formatMoney(latest.balance);
-            document.getElementById('currentUsed').textContent = formatMoney(latest.used);
-            document.getElementById('totalAmount').textContent = formatMoney(latest.total);
-            document.getElementById('lastUpdated').textContent = '最后更新: ' + new Date(latest.timestamp).toLocaleString();
+            
+            document.getElementById('currentBalance').textContent = formatMoneyCompact(latest.balance);
+            document.getElementById('currentUsed').textContent = formatMoneyCompact(latest.used);
+            document.getElementById('totalAmount').textContent = formatMoneyCompact(latest.total);
+            
+            // 格式化时间
+            const date = new Date(latest.timestamp);
+            const timeStr = date.toLocaleString('zh-CN', { 
+                month: 'numeric', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            document.getElementById('lastUpdated').textContent = '更新于 ' + timeStr;
+
+            // 计算变化 (如果有上一条数据)
+            if (previous) {
+                const diff = latest.balance - previous.balance;
+                const diffEl = document.getElementById('balanceDiff');
+                if (diff < 0) {
+                    diffEl.textContent = `较上次减少 ${formatMoneyFull(Math.abs(diff))}`;
+                    diffEl.classList.add('down');
+                } else if (diff > 0) {
+                    diffEl.textContent = `较上次增加 ${formatMoneyFull(diff)}`;
+                    diffEl.classList.remove('down');
+                } else {
+                    diffEl.textContent = '金额无变化';
+                    diffEl.classList.remove('down');
+                }
+            }
         }
 
         window.updateChart = function(period) {
@@ -215,13 +391,16 @@
             const filtered = filterData(allData, period);
             
             chart.data.datasets[0].data = filtered.map(d => ({x: d.timestamp, y: d.balance}));
-            chart.data.datasets[1].data = filtered.map(d => ({x: d.timestamp, y: d.used}));
             
             // Adjust time unit based on period
             if (period === 'day') {
                 chart.options.scales.x.time.unit = 'hour';
-            } else {
+                chart.options.scales.x.time.displayFormats.hour = 'HH:mm';
+            } else if (period === 'week') {
                 chart.options.scales.x.time.unit = 'day';
+                chart.options.scales.x.time.displayFormats.day = 'MM-DD';
+            } else {
+                chart.options.scales.x.time.unit = undefined; // auto
             }
             
             chart.update();
@@ -232,7 +411,8 @@
             allData = data;
             if (data.length > 0) {
                 const latest = data[data.length - 1];
-                updateStats(latest);
+                const previous = data.length > 1 ? data[data.length - 2] : null;
+                updateStats(latest, previous);
                 initChart(data);
             }
         });
