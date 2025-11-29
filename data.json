@@ -1,1 +1,54 @@
-{"code":"0000","msg":"操作成功","data":{"sum":2973,"successNum":2973,"sucessRate":"1.00","money":23230000,"total":"80000000.00","used":"23219000.00","balance":"56781000.00","successPay":"0","taxInclusiveSum":"803856797.00","noTaxInclusiveSum":"711377575.00","subSumList":[{"sum":90,"successNum":90,"sucessRate":null,"subsidiesLevel":"3000","money":270000,"noTaxInclusiveSumSub":"7144815.00","balance":0},{"sum":660,"successNum":660,"sucessRate":null,"subsidiesLevel":"5000","money":3300000,"noTaxInclusiveSumSub":"102185056.00","balance":0},{"sum":1594,"successNum":1594,"sucessRate":null,"subsidiesLevel":"8000","money":12752000,"noTaxInclusiveSumSub":"365445291.00","balance":0},{"sum":628,"successNum":628,"sucessRate":null,"subsidiesLevel":"11000","money":6908000,"noTaxInclusiveSumSub":"236571351.00","balance":0}]}}
+{
+  "code": "0000",
+  "msg": "操作成功",
+  "data": {
+    "sum": 3070,
+    "successNum": 3070,
+    "sucessRate": "1.00",
+    "money": 23960000,
+    "total": "80000000.00",
+    "used": "23949000.00",
+    "balance": "56051000.00",
+    "successPay": "0",
+    "taxInclusiveSum": "826560757.00",
+    "noTaxInclusiveSum": "731469571.00",
+    "subSumList": [
+      {
+        "sum": 92,
+        "successNum": 92,
+        "sucessRate": null,
+        "subsidiesLevel": "3000",
+        "money": 276000,
+        "noTaxInclusiveSumSub": "7337381.00",
+        "balance": 0
+      },
+      {
+        "sum": 684,
+        "successNum": 684,
+        "sucessRate": null,
+        "subsidiesLevel": "5000",
+        "money": 3420000,
+        "noTaxInclusiveSumSub": "105152684.00",
+        "balance": 0
+      },
+      {
+        "sum": 1653,
+        "successNum": 1653,
+        "sucessRate": null,
+        "subsidiesLevel": "8000",
+        "money": 13224000,
+        "noTaxInclusiveSumSub": "378702130.00",
+        "balance": 0
+      },
+      {
+        "sum": 640,
+        "successNum": 640,
+        "sucessRate": null,
+        "subsidiesLevel": "11000",
+        "money": 7040000,
+        "noTaxInclusiveSumSub": "240246314.00",
+        "balance": 0
+      }
+    ]
+  }
+}
