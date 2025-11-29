@@ -2,16 +2,16 @@
   "code": "0000",
   "msg": "操作成功",
   "data": {
-    "sum": 3074,
-    "successNum": 3074,
+    "sum": 3077,
+    "successNum": 3077,
     "sucessRate": "1.00",
-    "money": 23986000,
+    "money": 24010000,
     "total": "80000000.00",
-    "used": "23975000.00",
-    "balance": "56025000.00",
+    "used": "23999000.00",
+    "balance": "56001000.00",
     "successPay": "0",
-    "taxInclusiveSum": "827619056.00",
-    "noTaxInclusiveSum": "732406118.00",
+    "taxInclusiveSum": "828372556.00",
+    "noTaxInclusiveSum": "733072932.00",
     "subSumList": [
       {
         "sum": 92,
@@ -32,12 +32,12 @@
         "balance": 0
       },
       {
-        "sum": 1653,
-        "successNum": 1653,
+        "sum": 1656,
+        "successNum": 1656,
         "sucessRate": null,
         "subsidiesLevel": "8000",
-        "money": 13224000,
-        "noTaxInclusiveSumSub": "378702130.00",
+        "money": 13248000,
+        "noTaxInclusiveSumSub": "379368944.00",
         "balance": 0
       },
       {
