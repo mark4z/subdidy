@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 def process():
     # 读取最新抓取的数据
@@ -21,8 +21,10 @@ def process():
     data_payload = current_data.get('data', {})
     
     # 构造要保存的记录
+    # 使用 UTC+8 时区
+    tz = timezone(timedelta(hours=8))
     record = {
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': datetime.now(tz).isoformat(),
         'balance': float(data_payload.get('balance', 0)),
         'used': float(data_payload.get('used', 0)),
         'total': float(data_payload.get('total', 0)),

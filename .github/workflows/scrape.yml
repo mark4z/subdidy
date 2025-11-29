@@ -9,6 +9,8 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Shanghai
     steps:
     - name: Check out this repo
       uses: actions/checkout@v3
