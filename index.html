@@ -317,7 +317,15 @@
                             displayColors: true,
                             callbacks: {
                                 label: function(context) {
-                                    return context.dataset.label + ': ' + formatMoneyFull(context.parsed.y);
+                                    let label = context.dataset.label || '';
+                                    let value = context.parsed.y;
+                                    if (context.datasetIndex === 1) { // Used amount
+                                        const raw = context.raw;
+                                        if (raw && raw.originalUsed !== undefined) {
+                                             return label + ': ' + formatMoneyFull(raw.originalUsed) + ' (+' + formatMoneyFull(value) + ')';
+                                        }
+                                    }
+                                    return label + ': ' + formatMoneyFull(value);
                                 }
                             }
                         }
@@ -421,7 +429,18 @@
             const filtered = filterData(allData, period);
             
             chart.data.datasets[0].data = filtered.map(d => ({x: d.timestamp, y: d.balance}));
-            chart.data.datasets[1].data = filtered.map(d => ({x: d.timestamp, y: d.used}));
+            
+            // Calculate relative used amount (increment since start of period)
+            if (filtered.length > 0) {
+                const baseUsed = filtered[0].used;
+                chart.data.datasets[1].data = filtered.map(d => ({
+                    x: d.timestamp, 
+                    y: d.used - baseUsed,
+                    originalUsed: d.used
+                }));
+            } else {
+                chart.data.datasets[1].data = [];
+            }
             
             // Adjust time unit based on period
             if (period === 'day' || period === 'today') {
