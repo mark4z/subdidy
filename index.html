@@ -198,9 +198,10 @@
             <div class="chart-header">
                 <div class="chart-title">资金趋势</div>
                 <div class="controls">
+                    <button class="control-btn active" onclick="updateChart('today')" id="btn-today">当天</button>
                     <button class="control-btn" onclick="updateChart('day')" id="btn-day">24H</button>
                     <button class="control-btn" onclick="updateChart('week')" id="btn-week">7天</button>
-                    <button class="control-btn active" onclick="updateChart('all')" id="btn-all">全部</button>
+                    <button class="control-btn" onclick="updateChart('all')" id="btn-all">全部</button>
                 </div>
             </div>
             <div class="chart-wrapper">
@@ -253,6 +254,8 @@
                 cutoff.setHours(cutoff.getHours() - 24);
             } else if (period === 'week') {
                 cutoff.setDate(cutoff.getDate() - 7);
+            } else if (period === 'today') {
+                cutoff.setHours(0, 0, 0, 0);
             }
             
             return data.filter(item => new Date(item.timestamp) >= cutoff);
@@ -393,7 +396,7 @@
             chart.data.datasets[0].data = filtered.map(d => ({x: d.timestamp, y: d.balance}));
             
             // Adjust time unit based on period
-            if (period === 'day') {
+            if (period === 'day' || period === 'today') {
                 chart.options.scales.x.time.unit = 'hour';
                 chart.options.scales.x.time.displayFormats.hour = 'HH:mm';
             } else if (period === 'week') {
@@ -416,6 +419,7 @@
                 // 先用历史数据渲染，保证页面不空
                 updateStats(latest, previous);
                 initChart(data);
+                updateChart('today'); // 默认显示当天
 
                 // 尝试获取实时数据
                 try {
