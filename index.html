@@ -282,7 +282,19 @@
                             pointRadius: 0, // 默认不显示点，触摸时显示
                             pointHitRadius: 10,
                             fill: true,
-                            tension: 0.4
+                            tension: 0.4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '已用',
+                            data: data.map(d => ({x: d.timestamp, y: d.used})),
+                            borderColor: '#FF9500',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointHitRadius: 10,
+                            fill: false,
+                            tension: 0.4,
+                            yAxisID: 'y1'
                         }
                     ]
                 },
@@ -302,10 +314,10 @@
                             padding: 12,
                             titleFont: { size: 13 },
                             bodyFont: { size: 13 },
-                            displayColors: false,
+                            displayColors: true,
                             callbacks: {
                                 label: function(context) {
-                                    return '余额: ' + formatMoneyFull(context.parsed.y);
+                                    return context.dataset.label + ': ' + formatMoneyFull(context.parsed.y);
                                 }
                             }
                         }
@@ -333,7 +345,7 @@
                             }
                         },
                         y: {
-                            position: 'right', // Y轴放右边，符合移动端看K线习惯
+                            position: 'right', // Y轴放右边
                             grid: {
                                 color: '#F2F2F7',
                                 drawBorder: false
@@ -343,7 +355,22 @@
                                     return formatMoneyCompact(value);
                                 },
                                 font: { size: 10 },
-                                color: '#8E8E93',
+                                color: '#007AFF',
+                                maxTicksLimit: 6
+                            }
+                        },
+                        y1: {
+                            position: 'left', // Y1轴放左边
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return formatMoneyCompact(value);
+                                },
+                                font: { size: 10 },
+                                color: '#FF9500',
                                 maxTicksLimit: 6
                             }
                         }
@@ -394,6 +421,7 @@
             const filtered = filterData(allData, period);
             
             chart.data.datasets[0].data = filtered.map(d => ({x: d.timestamp, y: d.balance}));
+            chart.data.datasets[1].data = filtered.map(d => ({x: d.timestamp, y: d.used}));
             
             // Adjust time unit based on period
             if (period === 'day' || period === 'today') {
