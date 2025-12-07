@@ -2,16 +2,16 @@
   "code": "0000",
   "msg": "操作成功",
   "data": {
-    "sum": 10451,
-    "successNum": 10451,
+    "sum": 10472,
+    "successNum": 10472,
     "sucessRate": "1.00",
-    "money": 77934000,
+    "money": 78069000,
     "total": "80000000.00",
-    "used": "77994000.00",
-    "balance": "2006000.00",
+    "used": "78129000.00",
+    "balance": "1871000.00",
     "successPay": "0",
-    "taxInclusiveSum": "2599999916.00",
-    "noTaxInclusiveSum": "2300884273.00",
+    "taxInclusiveSum": "2604911986.00",
+    "noTaxInclusiveSum": "2305231236.00",
     "subSumList": [
       {
         "sum": 597,
@@ -23,30 +23,30 @@
         "balance": 0
       },
       {
-        "sum": 2406,
-        "successNum": 2406,
+        "sum": 2419,
+        "successNum": 2419,
         "sucessRate": null,
         "subsidiesLevel": "5000",
-        "money": 12030000,
-        "noTaxInclusiveSumSub": "354801441.00",
+        "money": 12095000,
+        "noTaxInclusiveSumSub": "356971766.00",
         "balance": 0
       },
       {
-        "sum": 5931,
-        "successNum": 5931,
+        "sum": 5937,
+        "successNum": 5937,
         "sucessRate": null,
         "subsidiesLevel": "8000",
-        "money": 47448000,
-        "noTaxInclusiveSumSub": "1340698277.00",
+        "money": 47496000,
+        "noTaxInclusiveSumSub": "1342069959.00",
         "balance": 0
       },
       {
-        "sum": 1515,
-        "successNum": 1515,
+        "sum": 1517,
+        "successNum": 1517,
         "sucessRate": null,
         "subsidiesLevel": "11000",
-        "money": 16665000,
-        "noTaxInclusiveSumSub": "558075354.00",
+        "money": 16687000,
+        "noTaxInclusiveSumSub": "558880310.00",
         "balance": 0
       }
     ]
