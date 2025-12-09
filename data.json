@@ -5,13 +5,13 @@
     "sum": 10757,
     "successNum": 10757,
     "sucessRate": "1.00",
-    "money": 79947000,
+    "money": 79955000,
     "total": "80000000.00",
     "used": "79999000.00",
     "balance": "1000.00",
     "successPay": "0",
-    "taxInclusiveSum": "2667600894.00",
-    "noTaxInclusiveSum": "2360708127.00",
+    "taxInclusiveSum": "2667799095.00",
+    "noTaxInclusiveSum": "2360883525.00",
     "subSumList": [
       {
         "sum": 640,
@@ -28,16 +28,16 @@
         "sucessRate": null,
         "subsidiesLevel": "5000",
         "money": 12600000,
-        "noTaxInclusiveSumSub": "371644057.00",
+        "noTaxInclusiveSumSub": "371640340.00",
         "balance": 0
       },
       {
-        "sum": 6043,
-        "successNum": 6043,
+        "sum": 6044,
+        "successNum": 6044,
         "sucessRate": null,
         "subsidiesLevel": "8000",
-        "money": 48344000,
-        "noTaxInclusiveSumSub": "1365966018.00",
+        "money": 48352000,
+        "noTaxInclusiveSumSub": "1366164691.00",
         "balance": 0
       },
       {
@@ -46,7 +46,7 @@
         "sucessRate": null,
         "subsidiesLevel": "11000",
         "money": 17083000,
-        "noTaxInclusiveSumSub": "572486303.00",
+        "noTaxInclusiveSumSub": "572485860.00",
         "balance": 0
       }
     ]
